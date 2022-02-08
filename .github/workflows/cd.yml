@@ -42,11 +42,8 @@ jobs:
           profile: minimal
 
       - name: Build CLI
-        uses: actions-rs/cargo@v1
         working-directory: cli
-        with:
-          command: build
-          args: --locked --target ${{ matrix.config.target }} --release
+        run: cargo build --locked --target ${{ matrix.config.target }} --release
 
       - name: Build GUI
         working-directory: gui
