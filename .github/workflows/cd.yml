@@ -47,13 +47,15 @@ jobs:
 
       - name: Build CLI
         working-directory: cli
+        shell: bash
         run: |
           cargo build --verbose --locked \
             --release --target ${{ matrix.config.target }}
 
       - name: Build GUI
         working-directory: gui
+        shell: bash
         run: |
-          yarn add -D @tauri-apps/cli
-          yarn tauri info
           yarn install --ignore-engines
+          yarn tauri info
+          yarn tauri build --target x86_64-unknown-linux-gnu
