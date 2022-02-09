@@ -19,22 +19,12 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            bundles:
-              - "amd64.deb"
-              - "amd64.AppImage"
-
           - build: darwin
             os: macos-latest
             target: x86_64-apple-darwin
-            bundles:
-              - "app"
-              - "x64.dmg"
-
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            bundles:
-              - "x64.msi"
 
     steps:
       - name: Checkout
@@ -88,12 +78,15 @@ jobs:
             strip "$release_dir/$bin" || true
           done
           tar -czvf "fish-launcher-${{ matrix.build }}.tar.gz" $release_dir/
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            bundles=("amd64.deb" "amd64.AppImage")
+          else
+            bundles=("app" "x64.dmg")
+          fi
           for bundle in $bundles; do
             mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.$bundle \
               "fish-launcher-${{ matrix.build }}.$bundle"
           done
-        env:
-          bundles: ${{ matrix.bundles }}
 
       - name: Prepare artifacts [Windows]
         shell: bash
@@ -106,12 +99,8 @@ jobs:
             strip "$release_dir/$bin"
           done
           7z a -tzip "fish-launcher-${{ matrix.build }}.zip" $release_dir/
-          for bundle in $bundles; do
-            mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.$bundle \
-              "fish-launcher-${{ matrix.build }}.$bundle"
-          done
-        env:
-          bundles: ${{ matrix.bundles }}
+          mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.x64.msi \
+            "fish-launcher-${{ matrix.build }}.x64.msi"
 
       - name: Publish release
         uses: svenstaro/upload-release-action@v2
