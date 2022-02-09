@@ -79,9 +79,9 @@ jobs:
           done
           tar -czvf "fish-launcher-${{ matrix.build }}.tar.gz" $release_dir/
           if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            bundles=("amd64.deb" "amd64.AppImage")
+            bundles=("deb" "AppImage")
           else
-            bundles=("app" "x64.dmg")
+            bundles=("app" "dmg")
           fi
           for bundle in $bundles; do
             mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.$bundle \
@@ -99,8 +99,8 @@ jobs:
             strip "$release_dir/$bin"
           done
           7z a -tzip "fish-launcher-${{ matrix.build }}.zip" $release_dir/
-          mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.x64.msi \
-            "fish-launcher-${{ matrix.build }}.x64.msi"
+          mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.msi \
+            "fish-launcher-${{ matrix.build }}.msi"
 
       - name: Publish release
         uses: svenstaro/upload-release-action@v2
