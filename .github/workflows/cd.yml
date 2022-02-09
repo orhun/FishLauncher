@@ -14,12 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build: [linux, darwin, windows]
+        build: [linux, macos, windows]
         include:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-          - build: darwin
+          - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
           - build: windows
