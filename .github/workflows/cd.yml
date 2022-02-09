@@ -19,17 +19,22 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            bundles: ["amd64.deb", "amd64.AppImage"]
+            bundles:
+              - "amd64.deb"
+              - "amd64.AppImage"
 
           - build: darwin
             os: macos-latest
             target: x86_64-apple-darwin
-            bundles: ["app", "x64.dmg"]
+            bundles:
+              - "app"
+              - "x64.dmg"
 
           - build: windows
             os: windows-latest
             target: x86_64-pc-windows-msvc
-            bundles: ["x64.msi"]
+            bundles:
+              - "x64.msi"
 
     steps:
       - name: Checkout
