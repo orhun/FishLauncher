@@ -83,10 +83,12 @@ jobs:
             strip "$release_dir/$bin" || true
           done
           tar -czvf "fish-launcher-${{ matrix.build }}.tar.gz" $release_dir/
-          for bundle in ${{ matrix.bundles }}; do
+          for bundle in $bundles; do
             mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.$bundle \
               "fish-launcher-${{ matrix.build }}.$bundle"
           done
+        env:
+          bundles: ${{ matrix.bundles }}
 
       - name: Prepare artifacts [Windows]
         shell: bash
@@ -99,10 +101,12 @@ jobs:
             strip "$release_dir/$bin"
           done
           7z a -tzip "fish-launcher-${{ matrix.build }}.zip" $release_dir/
-          for bundle in ${{ matrix.bundles }}; do
+          for bundle in $bundles; do
             mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.$bundle \
               "fish-launcher-${{ matrix.build }}.$bundle"
           done
+        env:
+          bundles: ${{ matrix.bundles }}
 
       - name: Publish release
         uses: svenstaro/upload-release-action@v2
