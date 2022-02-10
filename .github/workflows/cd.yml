@@ -83,10 +83,7 @@ jobs:
           else
             bundles=("app" "dmg")
           fi
-          echo $bundles
-          ls -l "target/${{ matrix.target }}/release"/bundle/*
           for bundle in $bundles; do
-            echo $bundle
             mv "target/${{ matrix.target }}/release"/bundle/*/fish-launcher*.$bundle \
               "fish-launcher-${{ matrix.build }}.$bundle"
           done
