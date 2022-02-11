@@ -64,6 +64,8 @@ jobs:
           yarn install --ignore-engines
           yarn tauri info
           yarn tauri build --target ${{ matrix.target }}
+        env:
+          CI: true
 
       - name: Prepare artifacts [Unix]
         shell: bash
